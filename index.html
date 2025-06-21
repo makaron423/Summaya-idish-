@@ -1,36 +1,96 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html>
 <head>
   <meta charset="UTF-8">
   <title>Sumayya Posuda</title>
   <style>
-    body { font-family: sans-serif; padding: 20px; background: #f8f8f8; }
-    .product { background: #fff; padding: 10px; border-radius: 10px; margin-bottom: 10px; }
-    button { background: #28a745; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; }
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background: linear-gradient(to bottom right, #e6f0ff, #ffffff);
+    }
+    .product {
+      background: #fff;
+      padding: 15px;
+      border-radius: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    button {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #218838;
+    }
+    .cart {
+      margin-top: 30px;
+      padding: 15px;
+      background: #fdfdfd;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
   </style>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-  <h2>Mahsulotlar</h2>
-
-  <div class="product">
+  <h2>Mahsulotlar</h2>  <div class="product">
     <p><strong>Choynak</strong></p>
     <p>Narxi: 35,000 so'm</p>
-    <button onclick="order('Choynak')">Buyurtma berish</button>
-  </div>
-
-  <div class="product">
+    <button onclick="addToCart('Choynak')">Korzinkaga qo'shish</button>
+  </div>  <div class="product">
     <p><strong>Likopcha</strong></p>
     <p>Narxi: 10,000 so'm</p>
-    <button onclick="order('Likopcha')">Buyurtma berish</button>
-  </div>
+    <button onclick="addToCart('Likopcha')">Korzinkaga qo'shish</button>
+  </div>  <div class="product">
+    <p><strong>Stakan</strong></p>
+    <p>Narxi: 5,000 so'm</p>
+    <button onclick="addToCart('Stakan')">Korzinkaga qo'shish</button>
+  </div>  <div class="product">
+    <p><strong>Kastrulka</strong></p>
+    <p>Narxi: 45,000 so'm</p>
+    <button onclick="addToCart('Kastrulka')">Korzinkaga qo'shish</button>
+  </div>  <div class="product">
+    <p><strong>Lag‘an</strong></p>
+    <p>Narxi: 20,000 so'm</p>
+    <button onclick="addToCart('Lagan')">Korzinkaga qo'shish</button>
+  </div>  <div class="product">
+    <p><strong>Chinni idish</strong></p>
+    <p>Narxi: 60,000 so'm</p>
+    <button onclick="addToCart('Chinni idish')">Korzinkaga qo'shish</button>
+  </div>  <div class="cart">
+    <h3>Korzinka</h3>
+    <ul id="cartItems"></ul>
+    <button onclick="sendOrder()">Buyurtma berish</button>
+  </div>  <script>
+    let cart = [];
 
-  <script>
-    Telegram.WebApp.ready();
-
-    function order(product) {
-      Telegram.WebApp.sendData(product + " uchun buyurtma berildi");
+    function addToCart(product) {
+      cart.push(product);
+      updateCartDisplay();
     }
-  </script>
-</body>
+
+    function updateCartDisplay() {
+      const list = document.getElementById('cartItems');
+      list.innerHTML = '';
+      cart.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        list.appendChild(li);
+      });
+    }
+
+    function sendOrder() {
+      if (cart.length === 0) {
+        alert("Korzinkangiz bo'sh!");
+        return;
+      }
+      const orderText = 'Buyurtma: ' + cart.join(', ');
+      Telegram.WebApp.sendData(orderText);
+    }
+
+    Telegram.WebApp.ready();
+  </script></body>
 </html>
